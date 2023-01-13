@@ -6,11 +6,11 @@ where student_name like 'h%';
 -- Hiển thị các thông tin lớp học có thời gian bắt đầu vào tháng 12.
 select class_name,start_date
 from class
-where month(start_date) >= 12;
+where month(start_date) = 12;
 -- Hiển thị tất cả các thông tin môn học có credit trong khoảng từ 3-5.
 select credit
 from subject 
-where credit >=3 and credit <=5;
+where credit between 3 and 5;
 -- Thay đổi mã lớp(ClassID) của sinh viên có tên ‘Hung’ là 2.
 SET SQL_SAFE_UPDATES=0;
 update student

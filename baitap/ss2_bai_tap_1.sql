@@ -1,67 +1,25 @@
-create database ss2_bai_tap_1;
-use ss2_bai_tap_1;
-
-create table so_dien_thoai(
-ma_so_dien_thoai varchar(50) primary key, 
-ten_so_dien_thoai varchar(50)
-);
-
-create table nha_cung_cap(
-ma_nha_cung_cap varchar(50) primary key,
-ten_nha_cung_cap varchar(50),
-dia_chi varchar(50),
-so_dien_thoai varchar(50),
-foreign key (so_dien_thoai) references so_dien_thoai(ma_so_dien_thoai)
-); 
-
-create table don_dat_hang(
-so_don_hang varchar(50) primary key,
-ngay_dao_hang varchar(50),
-ma_nha_cung_cap varchar(50),
-foreign key (ma_nha_cung_cap) references nha_cung_cap(ma_nha_cung_cap)
-);
-
-create table vat_tu(
-ma_vat_tu varchar(50) primary key,
-ten_vat_tu varchar(50)
-);
-
-create table chi_tiet_don_dat_hang(
-so_don_hang varchar(50),
-ma_vat_tu varchar(50),
-primary key (so_don_hang, ma_vat_tu),
-foreign key (so_don_hang) references don_dat_hang(so_don_hang),
-foreign key (ma_vat_tu) references vat_tu(ma_vat_tu)
-);
-
-create table phieu_xuat(
-so_phieu_xuat varchar(50) primary key,
-ngay_xuat varchar(50)
-);
-
-create table chi_tiet_phieu_xuat(
-don_gia_xuat varchar(50),
-so_luong_xuat varchar(50),
-so_phieu_xuat varchar(50),
-ma_vat_tu varchar(50),
-primary key (so_phieu_xuat, ma_vat_tu),
-foreign key (so_phieu_xuat) references phieu_xuat(so_phieu_xuat),
-foreign key (ma_vat_tu) references vat_tu(ma_vat_tu)
-);
-
-create table phieu_nhap(
-so_phieu_nhap varchar(50) primary key,
-ngay_nhap varchar(50)
-);
-
-create table chi_tiet_phieu_nhap(
-don_gia_nhap varchar(50),
-so_luong_nhap varchar(50),
-so_phieu_nhap varchar(50),
-ma_vat_tu varchar(50),
-primary key (so_phieu_nhap, ma_vat_tu),
-foreign key (so_phieu_nhap) references phieu_nhap(so_phieu_nhap),
-foreign key (ma_vat_tu) references vat_tu(ma_vat_tu)
-);
-
+use quan_ly_sinh_vien;
+-- Hiển thị tất cả các sinh viên có tên bắt đầu bảng ký tự ‘h’
+select *
+from student 
+where student_name like 'h%';
+-- Hiển thị các thông tin lớp học có thời gian bắt đầu vào tháng 12.
+select class_name,start_date
+from class
+where month(start_date) = 12;
+-- Hiển thị tất cả các thông tin môn học có credit trong khoảng từ 3-5.
+select credit
+from subject 
+where credit between 3 and 5;
+-- Thay đổi mã lớp(ClassID) của sinh viên có tên ‘Hung’ là 2.
+SET SQL_SAFE_UPDATES=0;
+update student
+set class_id = 2
+where student_name = 'hung';
+-- Hiển thị các thông tin: StudentName, SubName, Mark. Dữ liệu sắp xếp theo điểm thi (mark) giảm dần. nếu trùng sắp theo tên tăng dần.
+select student_name, sub_Name, mark
+from mark
+join subject on mark.sub_id = subject.sub_id
+join student on mark.student_id = student.student_id
+order by mark desc , student_name asc;
 
